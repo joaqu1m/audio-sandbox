@@ -1,0 +1,14 @@
+# --- Ferramentas portáteis (LilyPond + FluidSynth) ---
+# ~130 MB de binários; cada dev baixa pelos links no README.
+tools/
+
+# --- Soundfont de piano (~92 MB, asset de terceiros) ---
+# Não versionado por tamanho/licença; veja o README pra obter.
+Equinox_Grand_Pianos/
+
+# --- Soundfont de bass ainda NÃO testado ---
+# Remova esta linha quando for testar e commitar.
+000_WaveBlade House Bass.sfz
+
+# --- Artefatos temporários de áudio (o render.ps1 já apaga, isto é só rede de segurança) ---
+*.wav
