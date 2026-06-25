@@ -1,0 +1,18 @@
+[
+  {
+    "name": "GeneralUser GS",
+    "file": "GeneralUser-GS.sf2",
+    "default": true,
+    "url": "https://github.com/mrbumpy409/GeneralUser-GS/raw/main/GeneralUser-GS.sf2",
+    "page": "https://github.com/mrbumpy409/GeneralUser-GS",
+    "notes": "General MIDI completo: 261 presets + 13 kits de bateria (~31 MB). Licenca permissiva (S. Christian Collins)."
+  },
+  {
+    "name": "Equinox Grand Pianos",
+    "file": "Equinox_Grand_Pianos.sf2",
+    "default": false,
+    "url": null,
+    "page": "https://www.polyphone.io/o/documents/10-pianos/262-equinox-grand-pianos",
+    "notes": "Piano de cauda dedicado (~92 MB), mais nuance que o piano GM. Sem link direto: baixe o .rar (login na Polyphone), extraia e salve aqui como Equinox_Grand_Pianos.sf2."
+  }
+]

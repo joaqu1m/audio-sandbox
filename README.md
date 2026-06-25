@@ -29,9 +29,11 @@ Tudo já vem em `tools/` (portátil, sem instalação):
 | **LilyPond 2.26** | `.ly` → PDF/PNG + MIDI | `tools/lilypond/` |
 | **FluidSynth 2.5.5** | MIDI → áudio via soundfont | `tools/fluidsynth/` |
 | **ffmpeg** | WAV → MP3 normalizado | precisa estar no **PATH** |
-| **Soundfont (.sf2)** | o timbre (piano) | `Equinox_Grand_Pianos/` |
+| **Soundfont (.sf2)** | os timbres (General MIDI por padrão) | `soundfonts/` → `.\soundfonts\fetch.ps1` |
 
 > `ffmpeg` é a única dependência externa: `winget install Gyan.FFmpeg`
+>
+> **Setup do soundfont (uma vez):** `.\soundfonts\fetch.ps1` baixa o GeneralUser GS (default) e valida.
 > (Para reobter LilyPond/FluidSynth, veja o fim deste arquivo.)
 
 ---
@@ -58,9 +60,9 @@ Tudo já vem em `tools/` (portátil, sem instalação):
 > Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 > ```
 
-Trocar o instrumento/soundfont (ex.: orquestral):
+Trocar o timbre/soundfont (ex.: piano dedicado):
 ```powershell
-.\render.ps1 musicas\04-minha-musica\minha-musica.ly -SoundFont "C:\caminho\orquestra.sf2"
+.\render.ps1 musicas\04-minha-musica\minha-musica.ly -SoundFont "soundfonts\Equinox_Grand_Pianos.sf2"
 ```
 
 ---
@@ -93,7 +95,11 @@ Cada `\new Staff` é uma voz/instrumento; defina o timbre MIDI com `midiInstrume
 \new Staff { \set Staff.midiInstrument = "violin" \violinos }
 \new Staff { \set Staff.midiInstrument = "cello"  \cellos }
 ```
-Para soar como orquestra de verdade, troque o soundfont de piano por um orquestral via `-SoundFont`.
+Esses timbres já soam de verdade com o soundfont **default** (GeneralUser GS, um banco General MIDI completo). Pra um piano dedicado com mais nuance, baixe o Equinox e use `-SoundFont`:
+```powershell
+.\render.ps1 musicas\04-minha\minha.ly -SoundFont "soundfonts\Equinox_Grand_Pianos.sf2"
+```
+Catálogo completo de timbres e como baixá-los: **`soundfonts/README.md`**.
 
 ---
 
@@ -103,7 +109,10 @@ Para soar como orquestra de verdade, troque o soundfont de piano por um orquestr
 audio-sandbox/
 ├── README.md                  ← este arquivo
 ├── render.ps1                 ← .ly → pdf + png + mid + mp3 (um comando)
-├── Equinox_Grand_Pianos/      ← soundfont de piano (.sf2)
+├── soundfonts/                ← timbres (.sf2, não versionados)
+│   ├── README.md              ← catálogo dos timbres
+│   ├── soundfonts.json        ← manifesto (nome + URL de cada soundfont)
+│   └── fetch.ps1              ← baixa os .sf2 do manifesto (idempotente)
 ├── tools/                     ← LilyPond + FluidSynth (portáteis, ~130 MB)
 └── musicas/
     ├── _template.ly           ← ponto de partida pra peças novas
@@ -113,15 +122,19 @@ audio-sandbox/
         ├── fur_elise.ly
         └── jornada/           ← a saga até o LilyPond (por que MIDI→partitura não presta)
 ```
-\* `01` e `02` nasceram em Python (`mido`) antes de adotarmos o LilyPond — ficam como referência histórica. **O fluxo oficial é o LilyPond.**
+> Só as **fontes** vão pro Git: `.ly` e `.py`. Os gerados (`.mid`, `.pdf`, `.png`, `.mp3`)
+> e os soundfonts (`.sf2`) são ignorados — recrie os gerados com `render.ps1` e baixe os
+> soundfonts com `soundfonts\fetch.ps1`.
+>
+> \* `01` e `02` nasceram em Python (`mido`) antes de adotarmos o LilyPond — ficam como referência histórica (só o `.py`). **O fluxo oficial é o LilyPond.**
 
 ---
 
 ## Reobter ferramentas e soundfont (não versionados no Git)
 
-> `tools/` e o soundfont **não** vão pro Git (binários grandes / asset de terceiros). Cada dev baixa localmente:
+> `tools/` e os soundfonts **não** vão pro Git (binários grandes / assets de terceiros). Cada dev baixa localmente:
 
-- **Soundfont de piano**: coloque um `.sf2` em `Equinox_Grand_Pianos/` (ou aponte outro com `-SoundFont`).
+- **Soundfonts (.sf2)**: rode **`.\soundfonts\fetch.ps1`** (lê `soundfonts.json`, baixa o GeneralUser GS e valida). Catálogo e timbres extras em **`soundfonts/README.md`**.
 - **LilyPond** (Windows x64 portátil): <https://gitlab.com/lilypond/lilypond/-/releases> → `lilypond-2.x.y-mingw-x86_64.zip` → extraia em `tools/lilypond/`.
 - **FluidSynth** (Windows x64 portátil): <https://github.com/FluidSynth/fluidsynth/releases> → `…-win10-x64-glib.zip` → extraia em `tools/fluidsynth/`.
 - **ffmpeg**: `winget install Gyan.FFmpeg`

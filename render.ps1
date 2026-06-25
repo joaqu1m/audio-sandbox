@@ -21,8 +21,8 @@ if (-not $lily)  { throw "lilypond.exe nao encontrado em tools/lilypond  (veja '
 if (-not $fluid) { throw "fluidsynth.exe nao encontrado em tools/fluidsynth  (veja o README.md)" }
 if (-not (Get-Command ffmpeg -ErrorAction SilentlyContinue)) { throw "ffmpeg nao esta no PATH  -> winget install Gyan.FFmpeg" }
 
-if (-not $SoundFont) { $SoundFont = "$root\Equinox_Grand_Pianos\Equinox_Grand_Pianos.sf2" }
-if (-not (Test-Path $SoundFont)) { throw "soundfont nao encontrado: $SoundFont" }
+if (-not $SoundFont) { $SoundFont = "$root\soundfonts\GeneralUser-GS.sf2" }
+if (-not (Test-Path $SoundFont)) { throw "soundfont nao encontrado: $SoundFont  -> rode .\soundfonts\fetch.ps1" }
 
 $ly   = (Resolve-Path $LyFile).Path
 $dir  = Split-Path $ly -Parent
